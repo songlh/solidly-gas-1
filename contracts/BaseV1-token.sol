@@ -34,15 +34,19 @@ contract BaseV1 {
     }
 
     function _mint(address _to, uint _amount) internal returns (bool) {
-        balanceOf[_to] += _amount;
         totalSupply += _amount;
+        unchecked {
+            balanceOf[_to] += _amount;
+        }
         emit Transfer(address(0x0), _to, _amount);
         return true;
     }
 
     function _transfer(address _from, address _to, uint _value) internal returns (bool) {
         balanceOf[_from] -= _value;
-        balanceOf[_to] += _value;
+        unchecked {
+            balanceOf[_to] += _value;
+        }
         emit Transfer(_from, _to, _value);
         return true;
     }
